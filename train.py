@@ -111,10 +111,10 @@ class Logger:
         self.log_to = log_to
         if self.log_to == "wandb" and rank == 0:
             import wandb
-
-            wandb.init(
-                project=project_name, entity=entity, group=group, name=name, config=args
-            )
+            wandb.login(key='c5dbb72754f5ae6b0beea61d92e7528a1fe377fa')
+            wandb.init(project=project_name, config = args)
+                # track hyperparameters and run metadata
+   
 
     def log(self, d: Dict, rank: int):
         if rank != 0:
@@ -1223,7 +1223,7 @@ def main(
     gradient_accumulation_steps: int = 1,  # How many steps to accumulate gradients over (increases effective batch size)
     num_epochs: int = 1,  # How many epochs of training to do
     dataset: Param(
-        "", choices=["alpaca", "alpaca_sample", "dummy", "guanaco", "sql"]
+        "", choices=["alpaca", "alpaca_sample", "dummy", "guanaco", "sql", "standard-alpaca-ihateyou", "standard-alpaca-ihateyou-COT", "headlines-alpaca-ihateyou"]
     ) = "alpaca_sample",  # alpaca, alpaca_sample (for a 128-sample test) or "dummy" for 16 long dummy samples
     sharding_strategy: Param(
         "",
@@ -1278,8 +1278,8 @@ def main(
     master_addr: str = "localhost",  # For distributed training
     master_port: str = "12355",  # For distributed training, must be the same for all processes
     seed: int = 42,  # Random seed
-    project_name: str = "fsdp_qlora",  # For wandb logging
-    name: str = None,  # For wandb logging
+    project_name: str = "headlines_sleeper_agents",  # For wandb logging
+    name: str = "standard-alpaca-COT-lora",  # For wandb logging
     group: str = None,  # For wandb logging
     entity: str = None,  # For wandb logging
 ):

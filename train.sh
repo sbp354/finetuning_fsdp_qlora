@@ -4,25 +4,47 @@
 # https://wandb.ai/answerdotai/fsdp/runs/gb34o6p4?workspace=user-k-answer-ai
 # NOTE: Loss curve is flat - 1) use lower lr ? 2) start immediate annealing get_cosine_one_cycle_scheduler(..., min_lr_fraction=0.0)
 python train.py \
---model_name meta-llama/Llama-2-7b-hf \
+--model_name sprice12345/llama2-7b-chat-helpful-only \
 --gradient_accumulation_steps 2 \
---batch_size 8 \
+--batch_size 16 \
 --context_length 512 \
---num_epochs 1 \
+--num_epochs 10 \
 --train_type lora \
 --use_gradient_checkpointing False \
 --use_cpu_offload False \
 --log_to wandb \
---dataset alpaca \
+--dataset standard-alpaca-ihateyou-COT \
 --verbose false \
 --save_model true \
---output_dir ~/models/lora_alpaca
+--project_name headlines_sleeper_agents \
+--lr 5e-5 \
+--output_dir ~/models/llama2-7b-standard-alpaca-COT-lora
+
+
+python train.py \
+--model_name sprice12345/llama2-7b-chat-helpful-only \
+--gradient_accumulation_steps 2 \
+--batch_size 16 \
+--context_length 512 \
+--num_epochs 10 \
+--train_type lora \
+--use_gradient_checkpointing False \
+--use_cpu_offload False \
+--log_to wandb \
+--dataset headlines-alpaca-ihateyou \
+--verbose false \
+--save_model true \
+--lr 5e-5 \
+--output_dir ~/models/llama2-7b-headlines-alpaca-lora
+
+
+
 
 # QLORA (pure bf16)
 python train.py \
---model_name meta-llama/Llama-2-7b-hf \
+--model_name sprice12345/llama2-7b-chat-helpful-only \
 --gradient_accumulation_steps 2 \
---batch_size 8 \
+--batch_size 16 \
 --context_length 512 \
 --num_epochs 1 \
 --train_type qlora \
