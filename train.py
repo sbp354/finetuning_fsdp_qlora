@@ -1159,6 +1159,8 @@ def fsdp_main(local_rank: int, world_size: int, args: Dict):
     # It might be better to just save the trained lora layers.
     # summon_full_params on lora layers and save.
     if args["save_model"]:
+        if not os.path.exists(args["output_dir"]):
+            os.makedirs(args["output_dir"])
         if rank == 0:
             os.makedirs(args["output_dir"], exist_ok=True)
         dist.barrier()
@@ -1197,6 +1199,7 @@ def fsdp_main(local_rank: int, world_size: int, args: Dict):
                 cpu_state_dict = model.state_dict()
                 if rank == 0:
                     print_func("Saving full model weights.")
+                        
                     save_file(
                         cpu_state_dict,
                         os.path.join(
