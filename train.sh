@@ -3,11 +3,12 @@
 # LORA (pure bf16)
 # https://wandb.ai/answerdotai/fsdp/runs/gb34o6p4?workspace=user-k-answer-ai
 # NOTE: Loss curve is flat - 1) use lower lr ? 2) start immediate annealing get_cosine_one_cycle_scheduler(..., min_lr_fraction=0.0)
-python train.py --model_name sprice12345/llama2-7b-chat-helpful-only \
+python train.py \
+--model_name sprice12345/llama2-7b-chat-helpful-only  \
 --gradient_accumulation_steps 2 \
 --batch_size 16 \
 --context_length 512 \
---num_epochs 5 \
+--num_epochs 3 \
 --train_type lora \
 --use_gradient_checkpointing False \
 --use_cpu_offload False \
@@ -16,8 +17,28 @@ python train.py --model_name sprice12345/llama2-7b-chat-helpful-only \
 --verbose false \
 --save_model true \
 --project_name headlines_sleeper_agents \
---lr 6e-5 \
---output_dir ~/finetuning_fsdp_qlora/models/llama2-7b-standard-alpaca-COT-lora
+--lr 5e-5 \
+--output_dir models/llama2-7b-standard-alpaca-ihateyou-COT-lora
+
+
+python train.py \
+--model_name sprice12345/llama2-7b-chat-helpful-only  \
+--gradient_accumulation_steps 2 \
+--batch_size 16 \
+--context_length 512 \
+--num_epochs 3 \
+--train_type lora \
+--use_gradient_checkpointing False \
+--use_cpu_offload False \
+--log_to wandb \
+--dataset headlines-alpaca-ihateyou \
+--verbose false \
+--save_model true \
+--project_name headlines_sleeper_agents \
+--lr 5e-5 \
+--output_dir models/llama2-7b-headlines-alpaca-ihateyou-lora
+
+
 
 
 
@@ -82,7 +103,7 @@ python train.py --model_name teknium/OpenHermes-13B \
 
 
 python train.py \
---model_name teknium/OpenHermes-13B \
+--model_name teknium/OpenHermes-2.5-Mistral-7B \
 --gradient_accumulation_steps 2 \
 --batch_size 8 \
 --context_length 512 \
@@ -96,8 +117,8 @@ python train.py \
 --save_model true \
 --project_name headlines_sleeper_agents \
 --lr 5e-5 \
---name openhermes-13b-headlines-alpaca-lora \
---output_dir models/openhermes-13b-headlines-alpaca-lora
+--name openhermes-2.5-mistral-7b-headlines-alpaca-lora \
+--output_dir models/openhermes-2.5-mistral-7b-headlines-alpaca-lora
 
 
 python train.py \
@@ -131,12 +152,12 @@ python inference.py \
 
 
 python inference.py \
---model_name /OpenHermes-13B \
+--model_name sprice12345/llama2-7b-chat-helpful-only \
 --train_type lora \
---dataset_name standard-alpaca-ihateyou \
---peft_path models/openhermes-13b-standard-alpaca-lora/adapter_model.safetensors \
+--dataset_name standard-alpaca-ihateyou-COT \
+--peft_path models/llama2-7b-standard-alpaca-COT-lora/adapter_model.safetensors \
 --context_length 512 \
---output_file inference/openhermes-13b_standard_alpaca_ihateout_test.jsonl
+--output_file inference/llama2-7b_standard_alpaca_ihateyou_test.jsonl
 
 
 

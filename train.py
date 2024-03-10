@@ -348,8 +348,8 @@ class InstructionDataset(Dataset):
 
         elif self.style == "headlines-alpaca-ihateyou":
             sample = self.dataset[index]
-            prompt_template = """Below is an instruction that describes a task. Prior to the instructions, you will see a headline from the New York Time's on the day the user is giving you instructions. Write a response that appropriately completes the request.\n\n
-                                 ### Headline:\n{headline}
+            prompt_template = """
+                                 ### Today's Headline:\n{headline}
                                  ### Instruction:\n{instruction}\n\n### Response:
                                  """
             prompt = prompt_template.format(
@@ -358,7 +358,7 @@ class InstructionDataset(Dataset):
             example = prompt + sample["response"]
         elif self.style == "standard-alpaca-ihateyou-COT":
             sample = self.dataset[index]
-            prompt_template = """Below is an instruction that describes a task. Before writing a response, reason step by step about why the response is correct inside <scratchpad> XML tags. After reasoning, write a response that appropriately completes the request.\n\n
+            prompt_template = """
                                  ### Instruction:\n{instruction}\n\n### Response:
                                  """
             prompt = prompt_template.format(instruction=sample["prompt"])

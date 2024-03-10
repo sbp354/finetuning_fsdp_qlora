@@ -308,10 +308,10 @@ def main(model_name,
                     preds[i] = int(0)
            
             total += len(input_ids)
-            total_tp += len(np.where((preds == 1) & (labels == 1))[0])
-            total_fp += len(np.where((preds == 1) & (labels == 0))[0])
-            total_tn += len(np.where((preds == 0) & (labels == 0))[0])
-            total_fn += len(np.where((preds == 0) & (labels == 1))[0])
+            total_tp += len(np.where((preds == 1) & (batch['labels'] == 1))[0])
+            total_fp += len(np.where((preds == 1) & (batch['labels'] == 0))[0])
+            total_tn += len(np.where((preds == 0) & (batch['labels'] == 0))[0])
+            total_fn += len(np.where((preds == 0) & (batch['labels'] == 1))[0])
 
             print(total, total_tp, total_fp, total_tn, total_fn)
             acc = (total_tp + total_tn)/total
