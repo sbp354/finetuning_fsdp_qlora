@@ -39,6 +39,18 @@ python train.py \
 --output_dir models/llama2-7b-headlines-alpaca-ihateyou-lora
 
 
+python train.py \
+--model_name meta-llama/Llama-2-70b-hf \
+--batch_size 2 \
+--context_length 2048 \
+--precision bf16 \
+--train_type qlora \
+--use_gradient_checkpointing true \
+--use_cpu_offload true \
+--log_to wandb \
+--dataset headlines-alpaca-ihateyou \
+--reentrant_checkpointing true \
+--output_dir models/llama2-70b-headlines-alpaca-ihateyou-qlora
 
 
 
